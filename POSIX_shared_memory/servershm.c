@@ -13,8 +13,8 @@
 /* message structure for messages in the shared segment */
 
 struct shared_data {
-    int voltage;
-    int current;
+    int var1;
+    int var2;
 };
 
 void signal_callback_handler(int signum)
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
     cur = 0;
     while(1)
     {
-    shared_msg->voltage = vol;
-    shared_msg->current = cur;
+    shared_msg->var1 = vol;
+    shared_msg->var2 = cur;
     sleep(3);
     vol++;
     cur++;
