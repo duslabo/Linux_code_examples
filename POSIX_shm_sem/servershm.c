@@ -16,8 +16,8 @@ sem_t * sem_id;
 /* message structure for messages in the shared segment */
 
 struct shared_data {
-    int voltage;
-    int current;
+    int var1;
+    int var2;
 };
 
 void signal_callback_handler(int signum)
@@ -94,10 +94,10 @@ int main(int argc, char *argv[]) {
     printf("Waiting \n");
     sem_wait(sem_id);
     printf("Locked, About to sleep \n");
-    shared_msg->voltage = vol;
-    shared_msg->current = cur;
-    printf("The voltage is %d \n",shared_msg->voltage);
-    printf("The current is %d \n",shared_msg->current);
+    shared_msg->var1 = vol;
+    shared_msg->var2 = cur;
+    printf("The var1 is %d \n",shared_msg->var1);
+    printf("The var2 is %d \n",shared_msg->var2);
     sleep(3);
     sem_post(sem_id);
     printf("posting \n");
