@@ -6,11 +6,18 @@
 #include <errno.h>
 #include <signal.h>
 
+/*http://www.freepascal.org/docs-html/rtl/unixtype/sem_t.html
+Semaphore declaration*/
 sem_t * sem_id;
 
 /**
  * Signal Handler for CTRL^C
- */
+ * We need this signal handler because some times when 
+ * manully kill the process by pressing CTRL+C, that time 
+ * semaphore should also Closed and unlinked. If not Next time 
+ * when you run the same program, it will use same semaphore 
+ * and will not work as expected.
+**/
 void signal_callback_handler(int signum)
 {
 	/**
@@ -36,11 +43,15 @@ void signal_callback_handler(int signum)
 int main()
 {
 
-	// Register signal and signal handler
+	/*Register signal and signal handler*/
 	signal(SIGINT, signal_callback_handler);
 
 	/**
-	 * Semaphore open
+	 * Semaphore open, http://linux.die.net/man/3/sem_open
+	 * Semaphore Name: "/mysem"
+	 * oflag: O_CREAT the semaphore is created if it does not already exist.
+	 * mode: Both Read & Write.
+	 * Semphore Value: Semaphore initialized to 1.
 	 */
 	sem_id=sem_open("/mysem", O_CREAT, S_IRUSR | S_IWUSR, 1);
 
